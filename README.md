@@ -1,182 +1,92 @@
-***
+# 🚗 DamageLensAI
 
-# DamageLensAI
+🔗 **Live App:** https://junaidariie.github.io/DamageLensAI/
 
-> App Link : [Live app](https://junaidariie.github.io/DamageLensAI/)
+---
 
-***
+## 🔍 Overview
 
-## Table of Contents
+**DamageLensAI** is a multi-model vehicle damage analysis system that combines deep learning classification, transformer-based learning, and object detection to identify and localize car damage.
 
-- [Overview](#overview)
-- [Features](#features)
-- [Repository Structure](#repository-structure)
-- [Setup](#setup)
-- [Usage](#usage)
-- [Model Architecture](#model-architecture)
-- [Training & Evaluation](#training--evaluation)
-- [Notebooks](#notebooks)
-- [Files and Scripts](#files-and-scripts)
-***
+The system integrates:
 
-## Overview
+- **ResNet18** → Reliable CNN-based classification  
+- **DeiT (Vision Transformer)** → Transformer-based classification  
+- **YOLOv8** → Damage localization with bounding boxes  
+- **Grad-CAM** → Model interpretability via attention maps  
 
-**Car Damage AI** is a vehicle damage analysis system combining deep learning classification and object detection:
+Built with a **FastAPI backend** and an **interactive Streamlit frontend**, the application provides both predictions and visual explanations.
 
-- **ResNet18** for car damage classification
-- **DeiT** (transformer-based) for image classification  
-- **YOLOv8** for damage localization and bounding boxes
-- **Grad-CAM** for model explainability
+---
 
-Includes FastAPI backend, Streamlit frontend, and training notebooks.
+## ⚠️ Dataset Constraint (Important)
 
-**⚠️ Important Note:** Models trained on **extremely limited data**:
-- Transformer (DeiT) & ResNet18: **2,000 images**
-- YOLOv8: **~150 images**
+Models were trained on **extremely limited data**, which directly impacts performance:
 
-**Attention Map Performance:**
-- ✅ **ResNet Grad-CAM: Performing VERY WELL**
-- ❌ **DeiT Attention Maps: Performing VERY POORLY**
+- **ResNet18 & DeiT:** ~2,000 images (6 classes)  
+- **YOLOv8:** ~150 images  
 
-***
+Despite this, strong generalization behavior was achieved using transfer learning and evaluation-driven training.
 
-## Features
+---
 
-- Image upload via polished Streamlit app
-- Prediction modes: `Fusion`, `ResNet Only`, `DeiT Only`
-- Grad-CAM explainability (excellent for ResNet, poor for DeiT)
-- YOLO damage localization with bounding boxes
-- FastAPI endpoints for all predictions
-- Training notebooks with augmentation & metrics
+## ⚙️ Features
 
-***
+- Upload image via polished UI  
+- Multiple prediction modes:
+  - `Fusion (ResNet + DeiT)`
+  - `ResNet Only`
+  - `DeiT Only`
+- **Grad-CAM visualization**
+  - ✅ ResNet → Highly accurate attention maps  
+  - ❌ DeiT → Weak / noisy attention maps  
+- YOLO-based damage localization  
+- FastAPI endpoints for scalable inference  
 
-## Repository Structure
+---
 
-```
-├── app.py                 # FastAPI backend
-├── main.py               # Streamlit frontend
-├── scripts/
-│   ├── prediction_helper.py
-│   ├── gradcam.py
-│   └── yolo.py
-├── checkpoints/          # Model weights
-├── static/              # Results & uploads
-├── Notebooks/           # Training notebooks
-└── requirements.txt
-```
+## 🧠 Model Architecture
 
-***
+### 🔹 ResNet18
+- Fine-tuned pretrained backbone  
+- Early layers frozen  
+- Custom classifier head  
+- Strong spatial feature learning  
 
-## Setup
+### 🔹 DeiT (Transformer)
+- `facebook/deit-base-distilled-patch16-224`  
+- Fine-tuned classification head  
+- Captures global dependencies but struggles with localization  
 
-### 1. Environment Setup
+### 🔹 Fusion Model
+- Weighted average of predictions:
+  - `0.5 * ResNet + 0.5 * DeiT`
 
-```powershell
-cd "Car Damage Project"
-python -m venv venv
-venv\Scripts\activate  # Windows
-# source venv/bin/activate  # Linux/Mac
-```
+### 🔹 YOLOv8
+- Object detection for damage regions  
+- Outputs bounding boxes + confidence  
 
-### 2. Install Dependencies
+---
 
-```powershell
-pip install -r requirements.txt
-```
+## 🏷️ Classes
 
-### 3. Verify Checkpoints
+| Class          | Description              |
+|----------------|--------------------------|
+| F_Breakage     | Front minor damage       |
+| F_Crushed      | Front severe damage      |
+| F_Normal       | No front damage          |
+| R_Breakage     | Rear minor damage        |
+| R_Crushed      | Rear severe damage       |
+| R_Normal       | No rear damage           |
 
-Ensure these exist in `checkpoints/`:
-- `best_resnet_model.pt`
-- `best_deit_model.pt` 
-- `damage_detector.pt`
+---
 
-***
+## 📊 Training & Evaluation
 
-## Usage
+### 🔹 ResNet18 Performance
 
-### Start API Server
-```powershell
-uvicorn app:app --reload
-```
-**Runs at:** `http://127.0.0.1:8000`
+- **Train Accuracy:** 84.67%  
+- **Validation Accuracy:** 75.28%  
+- **Generalization Gap:** ~9% (controlled)
 
-### Start Streamlit App
-```powershell
-streamlit run main.py
-```
-
-***
-
-## Model Architecture
-
-### ResNet18
-- Fine-tuned backbone with frozen early layers
-- Custom head for **6 damage classes**:
-  | Class          | Description      |
-  |----------------|------------------|
-  | Front Breakage | Front minor damage |
-  | Front Crushed  | Front severe damage |
-  | Front Normal   | No front damage |
-  | Rear Breakage  | Rear minor damage |
-  | Rear Crushed   | Rear severe damage |
-  | Rear Normal    | No rear damage |
-
-### DeiT (Transformer)
-- `facebook/deit-base-distilled-patch16-224`
-- Fine-tuned transformer head
-
-### Fusion Model
-- Weighted average (0.5 ResNet + 0.5 DeiT)
-
-### YOLOv8
-- Damage region detection
-- Bounding boxes + confidence scores
-
-***
-
-## Training & Evaluation
-
-**Trained on LIMITED data:**
-- **ResNet18 & DeiT:** 2,000 images total
-- **YOLOv8:** ~150 images
-
-### Key Metrics
-
-| Model    | Train Acc | Val Acc | Best Val Acc |
-|----------|-----------|---------|--------------|
-| **ResNet18** | 84.67%    | 75.28%  | **75.28%**   |
-| **DeiT**     | 80.85%    | 71.88%  | **73.70%**   |
-
-**Grad-CAM Performance:**
-- **ResNet:** Excellent attention visualization
-- **DeiT:** Very poor attention maps
-
-***
-
-## Notebooks
-
-### 1. `Resnet18_fine_tuning.ipynb`
-- Dataset split + augmentation
-- Training curves & confusion matrix
-- Saves `best_resnet_model.pt`
-
-### 2. `Deit_fine_tuning.ipynb`  
-- Transformer preprocessing
-- Evaluation plots & metrics
-- Saves `best_deit_model.pt`
-
-***
-
-## Files and Scripts
-
-| File | Purpose |
-|------|---------|
-| `app.py` | FastAPI endpoints (/predict, /yolo, etc.) |
-| `main.py` | Streamlit UI with dark theme |
-| `prediction_helper.py` | Model wrappers |
-| `gradcam.py` | ResNet/DeiT visualization |
-| `yolo.py` | Damage detection |
-
-***
+**Classification Report:**
