@@ -1,248 +1,251 @@
-# Car Damage AI
+```markdown
+# 🚗 DamageLens AI
 
-[Link 1](#) | [Link 2](#)
+[🌐 Live Demo (Streamlit)](https://damagelensai-2ykgnklvvepm5ddzwzugza.streamlit.app/)  
+[🤗 Hugging Face Space](https://huggingface.co/spaces/junaid17/DamageLensAI/tree/main)
 
-> 🎥 **Video Demo:** _Add your project video link or embed here._
-
----
-
-## Table of Contents
-
-- [Overview](#overview)
-- [Features](#features)
-- [Repository Structure](#repository-structure)
-- [Setup](#setup)
-- [Usage](#usage)
-  - [Run the API](#run-the-api)
-  - [Run the Streamlit App](#run-the-streamlit-app)
-- [Model Architecture](#model-architecture)
-- [Training & Evaluation](#training--evaluation)
-- [Notebooks](#notebooks)
-- [Files and Scripts](#files-and-scripts)
-- [Next Steps](#next-steps)
+> ⚠️ **Important Note:** This project is built on *very limited data* and is intended as a **system design + ML integration project**, not a production-ready model.
 
 ---
 
-## Overview
+## 📌 Overview
 
-`Car Damage AI` is a vehicle damage analysis project built with a fusion of deep learning models and object detection:
+**DamageLens AI** is an end-to-end car damage analysis system that combines:
 
-- `ResNet18` for car damage classification
-- `DeiT` for transformer-based image classification
-- `YOLO` for damage localization and bounding-box predictions
-- Grad-CAM for visual model explainability
+- 🧠 Deep Learning Classification (ResNet + DeiT)
+- 🔍 Explainability (Grad-CAM)
+- 📦 Object Detection (YOLO)
 
-The project includes a FastAPI backend, a Streamlit frontend, and training notebooks for both ResNet and DeiT fine-tuning.
-
----
-
-## Features
-
-- Image upload and inference through a visually polished Streamlit app
-- Prediction modes: `Fusion`, `ResNet Only`, `DeiT Only`
-- Grad-CAM explainability for both ResNet and DeiT
-- YOLO-based damage localization with bounding-box output
-- Endpoints for ResNet, DeiT, fusion prediction, Grad-CAM generation, and YOLO detection
-- Training notebooks with dataset splitting, augmentation, metrics, and visualization
+The goal is not just prediction, but:
+> **Understanding *what* the model predicts, *where* it looks, and *where damage actually exists*.**
 
 ---
 
-## Repository Structure
+## 🚀 Live Applications
 
-- `app.py` - FastAPI backend that serves model inference and explainability endpoints
-- `main.py` - Streamlit frontend connecting to the API
-- `scripts/`
-  - `prediction_helper.py` - model wrappers for ResNet, DeiT, and fusion prediction
-  - `gradcam.py` - Grad-CAM generation for ResNet and DeiT models
-  - `yolo.py` - YOLO damage localization and image export
-- `checkpoints/` - saved model weights used by the API
-- `static/` - uploaded images and generated result visualizations
-- `Notebooks/` - training and evaluation notebooks
-- `requirements.txt` - Python dependencies
+- 🔗 **Frontend App:**  
+  https://damagelensai-2ykgnklvvepm5ddzwzugza.streamlit.app/
+
+- 🔗 **API / Backend (HF Space):**  
+  https://junaid17-damagelensai.hf.space
 
 ---
 
-## Setup
+## ✨ Key Features
 
-### 1. Create and activate your virtual environment
+- Multi-model prediction:
+  - Fusion (ResNet + DeiT)
+  - ResNet only
+  - DeiT only
 
-```powershell
-cd "d:\Car Damage Project"
-python -m venv myvenv
-myvenv\Scripts\activate
+- 📊 Probability visualization with interactive charts  
+- 🔥 Grad-CAM explainability (ResNet + DeiT)  
+- 🎯 YOLO-based damage localization  
+- ⚡ FastAPI backend with multiple endpoints  
+- 🎨 Modern Streamlit UI (dark theme)
+
+---
+
+## 🧠 System Architecture
+
 ```
 
-### 2. Install dependencies
+Input Image
+↓
+[ ResNet ]      [ DeiT ]
+↓             ↓
+Probabilities → Fusion
+↓
+Final Prediction
 
-```powershell
+* Grad-CAM (Explainability)
+* YOLO (Damage Localization)
+
+```
+
+---
+
+## 🏗️ Models Used
+
+### 🔹 ResNet18 (CNN)
+- Fine-tuned on car damage dataset
+- Strong spatial feature extraction
+- **Grad-CAM performs well**
+
+---
+
+### 🔹 DeiT (Transformer)
+- `facebook/deit-base-distilled-patch16-224`
+- Fine-tuned for classification
+- ⚠️ **Grad-CAM performance is poor (expected behavior for ViTs)**
+
+---
+
+### 🔹 Fusion Model
+- Combines ResNet + DeiT predictions
+- Weighted average (0.5 / 0.5)
+
+---
+
+### 🔹 YOLO (Detection)
+- Detects damage regions
+- Outputs bounding boxes + confidence
+
+---
+
+## ⚠️ Dataset Limitations (READ THIS)
+
+This project is intentionally transparent about its limitations:
+
+| Model       | Dataset Size |
+|------------|-------------|
+| ResNet     | ~2000 images |
+| DeiT       | ~2000 images |
+| YOLO       | ~150 images  |
+
+### Implications:
+
+- YOLO detections may be inconsistent  
+- Transformer explainability is weak  
+- Model generalization is limited  
+
+> ⚠️ This is a **low-data experimental system**, not production-grade.
+
+---
+
+## 📊 Performance Summary
+
+### ✅ Works Well
+- ResNet classification
+- Grad-CAM (ResNet)
+- End-to-end system integration
+
+### ⚠️ Weak Areas
+- DeiT Grad-CAM (poor attention maps)
+- YOLO (limited training data)
+- Overall robustness
+
+---
+
+## 🖼️ Outputs Provided
+
+For each image, the system generates:
+
+1. ✅ Final prediction (damage type)
+2. 📊 Class probabilities
+3. 🔥 Grad-CAM (ResNet + DeiT)
+4. 🎯 YOLO bounding boxes
+
+---
+
+## 📂 Project Structure
+
+```
+
+.
+├── app.py                  # FastAPI backend
+├── main.py                 # Streamlit frontend
+├── scripts/
+│   ├── prediction_helper.py
+│   ├── gradcam.py
+│   └── yolo.py
+├── checkpoints/            # Model weights
+├── static/                 # Uploaded + output images
+├── Notebooks/              # Training notebooks
+├── requirements.txt
+
+````
+
+---
+
+## ⚙️ Setup
+
+```bash
+git clone <repo-url>
+cd damage-lens-ai
+
+python -m venv venv
+venv\Scripts\activate
+
 pip install -r requirements.txt
-```
-
-### 3. Confirm required files
-
-Ensure the following checkpoint files exist:
-
-- `checkpoints/best_resnet_model.pt`
-- `checkpoints/best_deit_model.pt`
-- `checkpoints/damage_detector.pt`
-
-If these files are missing, run the notebooks in `Notebooks/` to train or generate them.
+````
 
 ---
 
-## Usage
+## ▶️ Run Locally
 
-### Run the API
+### Start API
 
-```powershell
+```bash
 uvicorn app:app --reload
 ```
 
-The API runs by default at `http://127.0.0.1:8000`.
+### Start Frontend
 
-### Run the Streamlit App
-
-```powershell
+```bash
 streamlit run main.py
 ```
 
-> The Streamlit app uses `API_URL = "http://127.0.0.1:8000"` in `main.py`.
+---
+
+## 🔌 API Endpoints
+
+| Endpoint          | Description      |
+| ----------------- | ---------------- |
+| `/predict/fusion` | Final prediction |
+| `/predict/resnet` | ResNet output    |
+| `/predict/deit`   | DeiT output      |
+| `/predict`        | Grad-CAM         |
+| `/predict/yolo`   | Damage detection |
 
 ---
 
-## Model Architecture
+## 🧪 Notebooks
 
-### ResNet18
+* `Resnet18_fine_tuning.ipynb`
+* `Deit_fine_tuning.ipynb`
 
-- Uses a fine-tuned `resnet18` backbone
-- Freezes early layers
-- Fine-tunes `layer3`, `layer4`, and a custom classification head
-- Predicts 6 classes:
-  - `Front Breakage`
-  - `Front Crushed`
-  - `Front Normal`
-  - `Rear Breakage`
-  - `Rear Crushed`
-  - `Rear Normal`
+Includes:
 
-### DeiT
-
-- Uses `facebook/deit-base-distilled-patch16-224` from Hugging Face
-- Fine-tunes the transformer head for the same 6-class damage classification task
-
-### Fusion
-
-- Combines ResNet and DeiT probability outputs
-- Weighted average fusion is used to create a final ensemble prediction
-- Default weights are 0.5 / 0.5
-
-### YOLO
-
-- Uses a YOLO-based detector from `checkpoints/damage_detector.pt`
-- Detects damage regions and returns boxes, labels, and confidence scores
+* Training pipeline
+* Evaluation metrics
+* Visualization
 
 ---
 
-## Training & Evaluation
+## 🎯 What This Project Demonstrates
 
-### Summary from Notebooks
+This is NOT just a model project.
 
-#### ResNet18 Fine-tuning
+It demonstrates:
 
-- Initial epoch: `Train Acc 18.52%`, `Val Acc 29.25%`
-- Final reported epoch: `Train Acc 84.67%`, `Val Acc 75.28%`
-- Classification evaluation shows overall validation accuracy near `0.75`
-
-#### DeiT Fine-tuning
-
-- Initial epoch: `Train Acc 31.40%`, `Val Acc 40.59%`
-- Later epoch metrics: `Train Acc 80.85%`, `Val Acc 71.88%`
-- Best logged validation performance approaching `73.70%`
-- Classification evaluation shows overall validation accuracy near `0.71`
-
-### Evaluation Outputs
-
-The notebooks generate the following evaluation artifacts:
-
-- Training and validation loss curves
-- Training and validation accuracy curves
-- Confusion matrix heatmap
-- `classification_report` with precision, recall, and F1-score
-
-If you want to record exact values, open the notebook and inspect the last `classification_report` output.
+* Multi-model system design
+* Explainability integration
+* Detection + classification pipeline
+* API + frontend deployment
 
 ---
 
-## Notebooks
+## 🚀 Future Improvements
 
-### `Notebooks/Resnet18_fine_tuning.ipynb`
-
-- Prepares dataset split into `train/` and `val/`
-- Uses custom `Car_Dataset` and `ImageFolder`
-- Fine-tunes a ResNet18 model with data augmentation
-- Saves best checkpoint to `checkpoints/best_resnet_model.pt`
-- Generates loss and accuracy plots
-- Builds confusion matrix and classification report
-
-### `Notebooks/Deit_fine_tuning.ipynb`
-
-- Uses `DeiTImageProcessor` and `DeiTForImageClassification`
-- Prepares dataset and tokenizes images for transformer input
-- Fine-tunes the DeiT model
-- Saves best checkpoint to `checkpoints/best_deit_model.pt`
-- Generates evaluation plots and classification metrics
+* Train YOLO on larger dataset
+* Improve DeiT interpretability
+* Combine YOLO + Grad-CAM into single visualization
+* Add damage severity scoring
+* Deploy frontend separately (Vercel)
 
 ---
 
-## Files and Scripts
+## ⚠️ Final Note
 
-### `app.py`
+This project focuses on:
 
-- Implements FastAPI endpoints:
-  - `GET /` status check
-  - `POST /predict` Grad-CAM generation
-  - `POST /predict/resnet` ResNet-only prediction
-  - `POST /predict/deit` DeiT-only prediction
-  - `POST /predict/fusion` fusion output
-  - `POST /predict/yolo` YOLO damage localization
-
-### `main.py`
-
-- Streamlit frontend with a polished dark UI
-- Image uploader and inference controls
-- Selectable prediction engine
-- Displays predictions, Grad-CAM visualizations, and YOLO detections
-
-### `scripts/prediction_helper.py`
-
-- `ResnetCarDamagePredictor`
-- `DeitCarDamagePredictor`
-- `FusionCarDamagePredictor`
-
-### `scripts/gradcam.py`
-
-- Grad-CAM generation for ResNet and DeiT models
-- Saves overlay visualizations to `static/results`
-
-### `scripts/yolo.py`
-
-- Loads the YOLO detector
-- Predicts damage boxes and saves annotated images
+> **Building a complete AI system — not just maximizing accuracy.**
 
 ---
 
-## Next Steps
+## 📬 Contact
 
-- Add the demo video link in the placeholder above
-- Replace `Link 1` and `Link 2` with repository, demo, or model documentation URLs
-- Add a README screenshot or GIF for the Streamlit UI
-- Include exact per-class metrics once the notebook evaluation outputs are executed
-- Consider adding a `docker-compose` setup for simpler deployment
+If you want to collaborate or discuss improvements, feel free to reach out.
 
----
-
-## Notes
-
-- The Streamlit app assumes the FastAPI service is available at `http://127.0.0.1:8000`
-- If you change the API host or port, update `API_URL` in `main.py`
-- Use `python -m pip install --upgrade pip` if dependency installation fails
+```
