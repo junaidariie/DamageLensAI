@@ -1,9 +1,7 @@
 ***
 
-# Car Damage AI
+# DamageLensAI
 
-> 🎥 **Video Demo:** _Add your project video link or embed here._
-> 
 > App Link : https://damagelensai-2ykgnklvvepm5ddzwzugza.streamlit.app/
 
 ***
