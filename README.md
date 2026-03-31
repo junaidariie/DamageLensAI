@@ -2,7 +2,7 @@
 
 # DamageLensAI
 
-> App Link : https://damagelensai-2ykgnklvvepm5ddzwzugza.streamlit.app/
+> App Link : [https://damagelensai-2ykgnklvvepm5ddzwzugza.streamlit.app/](https://junaidariie.github.io/DamageLensAI/)
 
 ***
 
