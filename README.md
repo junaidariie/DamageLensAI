@@ -3,6 +3,7 @@
 # Car Damage AI
 
 > 🎥 **Video Demo:** _Add your project video link or embed here._
+> 
 > App Link : https://damagelensai-2ykgnklvvepm5ddzwzugza.streamlit.app/
 
 ***
@@ -18,8 +19,6 @@
 - [Training & Evaluation](#training--evaluation)
 - [Notebooks](#notebooks)
 - [Files and Scripts](#files-and-scripts)
-- [Next Steps](#next-steps)
-
 ***
 
 ## Overview
@@ -181,22 +180,5 @@ streamlit run main.py
 | `prediction_helper.py` | Model wrappers |
 | `gradcam.py` | ResNet/DeiT visualization |
 | `yolo.py` | Damage detection |
-
-***
-
-## Next Steps
-
-- [ ] Add demo video
-- [ ] Include per-class F1-scores
-- [ ] UI screenshots/GIFs
-- [ ] Docker deployment
-- [ ] Improve DeiT attention maps
-- [ ] Dataset expansion
-
-***
-
-**Notes:**
-- Update `API_URL` in `main.py` if changing host/port
-- `pip install --upgrade pip` if dependency issues
 
 ***
