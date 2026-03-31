@@ -2,9 +2,8 @@
 
 # Car Damage AI
 
-[ | [
-
 > 🎥 **Video Demo:** _Add your project video link or embed here._
+> App Link : https://damagelensai-2ykgnklvvepm5ddzwzugza.streamlit.app/
 
 ***
 
@@ -201,5 +200,3 @@ streamlit run main.py
 - `pip install --upgrade pip` if dependency issues
 
 ***
-
-Would you like me to add per-class metrics from your notebooks, include UI screenshots, or adjust any specific section?
