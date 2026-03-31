@@ -1,251 +1,205 @@
-```markdown
-# 🚗 DamageLens AI
+***
 
-[🌐 Live Demo (Streamlit)](https://damagelensai-2ykgnklvvepm5ddzwzugza.streamlit.app/)  
-[🤗 Hugging Face Space](https://huggingface.co/spaces/junaid17/DamageLensAI/tree/main)
+# Car Damage AI
 
-> ⚠️ **Important Note:** This project is built on *very limited data* and is intended as a **system design + ML integration project**, not a production-ready model.
+[ | [
 
----
+> 🎥 **Video Demo:** _Add your project video link or embed here._
 
-## 📌 Overview
+***
 
-**DamageLens AI** is an end-to-end car damage analysis system that combines:
+## Table of Contents
 
-- 🧠 Deep Learning Classification (ResNet + DeiT)
-- 🔍 Explainability (Grad-CAM)
-- 📦 Object Detection (YOLO)
+- [Overview](#overview)
+- [Features](#features)
+- [Repository Structure](#repository-structure)
+- [Setup](#setup)
+- [Usage](#usage)
+- [Model Architecture](#model-architecture)
+- [Training & Evaluation](#training--evaluation)
+- [Notebooks](#notebooks)
+- [Files and Scripts](#files-and-scripts)
+- [Next Steps](#next-steps)
 
-The goal is not just prediction, but:
-> **Understanding *what* the model predicts, *where* it looks, and *where damage actually exists*.**
+***
 
----
+## Overview
 
-## 🚀 Live Applications
+**Car Damage AI** is a vehicle damage analysis system combining deep learning classification and object detection:
 
-- 🔗 **Frontend App:**  
-  https://damagelensai-2ykgnklvvepm5ddzwzugza.streamlit.app/
+- **ResNet18** for car damage classification
+- **DeiT** (transformer-based) for image classification  
+- **YOLOv8** for damage localization and bounding boxes
+- **Grad-CAM** for model explainability
 
-- 🔗 **API / Backend (HF Space):**  
-  https://junaid17-damagelensai.hf.space
+Includes FastAPI backend, Streamlit frontend, and training notebooks.
 
----
+**⚠️ Important Note:** Models trained on **extremely limited data**:
+- Transformer (DeiT) & ResNet18: **2,000 images**
+- YOLOv8: **~150 images**
 
-## ✨ Key Features
+**Attention Map Performance:**
+- ✅ **ResNet Grad-CAM: Performing VERY WELL**
+- ❌ **DeiT Attention Maps: Performing VERY POORLY**
 
-- Multi-model prediction:
-  - Fusion (ResNet + DeiT)
-  - ResNet only
-  - DeiT only
+***
 
-- 📊 Probability visualization with interactive charts  
-- 🔥 Grad-CAM explainability (ResNet + DeiT)  
-- 🎯 YOLO-based damage localization  
-- ⚡ FastAPI backend with multiple endpoints  
-- 🎨 Modern Streamlit UI (dark theme)
+## Features
 
----
+- Image upload via polished Streamlit app
+- Prediction modes: `Fusion`, `ResNet Only`, `DeiT Only`
+- Grad-CAM explainability (excellent for ResNet, poor for DeiT)
+- YOLO damage localization with bounding boxes
+- FastAPI endpoints for all predictions
+- Training notebooks with augmentation & metrics
 
-## 🧠 System Architecture
+***
 
-```
-
-Input Image
-↓
-[ ResNet ]      [ DeiT ]
-↓             ↓
-Probabilities → Fusion
-↓
-Final Prediction
-
-* Grad-CAM (Explainability)
-* YOLO (Damage Localization)
+## Repository Structure
 
 ```
-
----
-
-## 🏗️ Models Used
-
-### 🔹 ResNet18 (CNN)
-- Fine-tuned on car damage dataset
-- Strong spatial feature extraction
-- **Grad-CAM performs well**
-
----
-
-### 🔹 DeiT (Transformer)
-- `facebook/deit-base-distilled-patch16-224`
-- Fine-tuned for classification
-- ⚠️ **Grad-CAM performance is poor (expected behavior for ViTs)**
-
----
-
-### 🔹 Fusion Model
-- Combines ResNet + DeiT predictions
-- Weighted average (0.5 / 0.5)
-
----
-
-### 🔹 YOLO (Detection)
-- Detects damage regions
-- Outputs bounding boxes + confidence
-
----
-
-## ⚠️ Dataset Limitations (READ THIS)
-
-This project is intentionally transparent about its limitations:
-
-| Model       | Dataset Size |
-|------------|-------------|
-| ResNet     | ~2000 images |
-| DeiT       | ~2000 images |
-| YOLO       | ~150 images  |
-
-### Implications:
-
-- YOLO detections may be inconsistent  
-- Transformer explainability is weak  
-- Model generalization is limited  
-
-> ⚠️ This is a **low-data experimental system**, not production-grade.
-
----
-
-## 📊 Performance Summary
-
-### ✅ Works Well
-- ResNet classification
-- Grad-CAM (ResNet)
-- End-to-end system integration
-
-### ⚠️ Weak Areas
-- DeiT Grad-CAM (poor attention maps)
-- YOLO (limited training data)
-- Overall robustness
-
----
-
-## 🖼️ Outputs Provided
-
-For each image, the system generates:
-
-1. ✅ Final prediction (damage type)
-2. 📊 Class probabilities
-3. 🔥 Grad-CAM (ResNet + DeiT)
-4. 🎯 YOLO bounding boxes
-
----
-
-## 📂 Project Structure
-
-```
-
-.
-├── app.py                  # FastAPI backend
-├── main.py                 # Streamlit frontend
+├── app.py                 # FastAPI backend
+├── main.py               # Streamlit frontend
 ├── scripts/
 │   ├── prediction_helper.py
 │   ├── gradcam.py
 │   └── yolo.py
-├── checkpoints/            # Model weights
-├── static/                 # Uploaded + output images
-├── Notebooks/              # Training notebooks
-├── requirements.txt
-
-````
-
----
-
-## ⚙️ Setup
-
-```bash
-git clone <repo-url>
-cd damage-lens-ai
-
-python -m venv venv
-venv\Scripts\activate
-
-pip install -r requirements.txt
-````
-
----
-
-## ▶️ Run Locally
-
-### Start API
-
-```bash
-uvicorn app:app --reload
+├── checkpoints/          # Model weights
+├── static/              # Results & uploads
+├── Notebooks/           # Training notebooks
+└── requirements.txt
 ```
 
-### Start Frontend
+***
 
-```bash
+## Setup
+
+### 1. Environment Setup
+
+```powershell
+cd "Car Damage Project"
+python -m venv venv
+venv\Scripts\activate  # Windows
+# source venv/bin/activate  # Linux/Mac
+```
+
+### 2. Install Dependencies
+
+```powershell
+pip install -r requirements.txt
+```
+
+### 3. Verify Checkpoints
+
+Ensure these exist in `checkpoints/`:
+- `best_resnet_model.pt`
+- `best_deit_model.pt` 
+- `damage_detector.pt`
+
+***
+
+## Usage
+
+### Start API Server
+```powershell
+uvicorn app:app --reload
+```
+**Runs at:** `http://127.0.0.1:8000`
+
+### Start Streamlit App
+```powershell
 streamlit run main.py
 ```
 
----
+***
 
-## 🔌 API Endpoints
+## Model Architecture
 
-| Endpoint          | Description      |
-| ----------------- | ---------------- |
-| `/predict/fusion` | Final prediction |
-| `/predict/resnet` | ResNet output    |
-| `/predict/deit`   | DeiT output      |
-| `/predict`        | Grad-CAM         |
-| `/predict/yolo`   | Damage detection |
+### ResNet18
+- Fine-tuned backbone with frozen early layers
+- Custom head for **6 damage classes**:
+  | Class          | Description      |
+  |----------------|------------------|
+  | Front Breakage | Front minor damage |
+  | Front Crushed  | Front severe damage |
+  | Front Normal   | No front damage |
+  | Rear Breakage  | Rear minor damage |
+  | Rear Crushed   | Rear severe damage |
+  | Rear Normal    | No rear damage |
 
----
+### DeiT (Transformer)
+- `facebook/deit-base-distilled-patch16-224`
+- Fine-tuned transformer head
 
-## 🧪 Notebooks
+### Fusion Model
+- Weighted average (0.5 ResNet + 0.5 DeiT)
 
-* `Resnet18_fine_tuning.ipynb`
-* `Deit_fine_tuning.ipynb`
+### YOLOv8
+- Damage region detection
+- Bounding boxes + confidence scores
 
-Includes:
+***
 
-* Training pipeline
-* Evaluation metrics
-* Visualization
+## Training & Evaluation
 
----
+**Trained on LIMITED data:**
+- **ResNet18 & DeiT:** 2,000 images total
+- **YOLOv8:** ~150 images
 
-## 🎯 What This Project Demonstrates
+### Key Metrics
 
-This is NOT just a model project.
+| Model    | Train Acc | Val Acc | Best Val Acc |
+|----------|-----------|---------|--------------|
+| **ResNet18** | 84.67%    | 75.28%  | **75.28%**   |
+| **DeiT**     | 80.85%    | 71.88%  | **73.70%**   |
 
-It demonstrates:
+**Grad-CAM Performance:**
+- **ResNet:** Excellent attention visualization
+- **DeiT:** Very poor attention maps
 
-* Multi-model system design
-* Explainability integration
-* Detection + classification pipeline
-* API + frontend deployment
+***
 
----
+## Notebooks
 
-## 🚀 Future Improvements
+### 1. `Resnet18_fine_tuning.ipynb`
+- Dataset split + augmentation
+- Training curves & confusion matrix
+- Saves `best_resnet_model.pt`
 
-* Train YOLO on larger dataset
-* Improve DeiT interpretability
-* Combine YOLO + Grad-CAM into single visualization
-* Add damage severity scoring
-* Deploy frontend separately (Vercel)
+### 2. `Deit_fine_tuning.ipynb`  
+- Transformer preprocessing
+- Evaluation plots & metrics
+- Saves `best_deit_model.pt`
 
----
+***
 
-## ⚠️ Final Note
+## Files and Scripts
 
-This project focuses on:
+| File | Purpose |
+|------|---------|
+| `app.py` | FastAPI endpoints (/predict, /yolo, etc.) |
+| `main.py` | Streamlit UI with dark theme |
+| `prediction_helper.py` | Model wrappers |
+| `gradcam.py` | ResNet/DeiT visualization |
+| `yolo.py` | Damage detection |
 
-> **Building a complete AI system — not just maximizing accuracy.**
+***
 
----
+## Next Steps
 
-## 📬 Contact
+- [ ] Add demo video
+- [ ] Include per-class F1-scores
+- [ ] UI screenshots/GIFs
+- [ ] Docker deployment
+- [ ] Improve DeiT attention maps
+- [ ] Dataset expansion
 
-If you want to collaborate or discuss improvements, feel free to reach out.
+***
 
-```
+**Notes:**
+- Update `API_URL` in `main.py` if changing host/port
+- `pip install --upgrade pip` if dependency issues
+
+***
+
+Would you like me to add per-class metrics from your notebooks, include UI screenshots, or adjust any specific section?
