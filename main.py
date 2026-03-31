@@ -253,7 +253,7 @@ with main_container:
             st.markdown("<br>", unsafe_allow_html=True)
             
             # --- COLD START WARNING ---
-            st.info("⏱️ **Note:** The first analysis may take up to **30-60 seconds** while the AI models warm up. Subsequent requests will be much faster!")
+            st.info("⏱️ **Note:** The first analysis may take up to **3-4 mins** while the AI models warm up. Subsequent requests will be much faster!")
             
             predict_btn = st.button("🚀 Run AI Analysis", use_container_width=True)
             st.markdown('</div>', unsafe_allow_html=True)
