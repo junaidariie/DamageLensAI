@@ -1,6 +1,8 @@
+---
+
 # 🚗 DamageLensAI
 
-🔗 **Live App:** https://junaidariie.github.io/DamageLensAI/
+🔗 **Live App:** [https://junaidariie.github.io/DamageLensAI/](https://junaidariie.github.io/DamageLensAI/)
 
 ---
 
@@ -54,9 +56,11 @@ Despite this, strong generalization behavior was achieved using transfer learnin
 - Strong spatial feature learning  
 
 ### 🔹 DeiT (Transformer)
-- `facebook/deit-base-distilled-patch16-224`  
-- Fine-tuned classification head  
-- Captures global dependencies but struggles with localization  
+- **Model:** `facebook/deit-base-distilled-patch16-224`  
+- **Fine-tuning Strategy:** - Initial layers frozen to preserve pretrained transformer knowledge.
+    - **Unfrozen the last 4 encoder layers** to adapt to specific vehicle damage features.
+    - **LayerNorm parameters unfrozen** for better internal normalization during adaptation.
+- Captures global dependencies but struggles with localization.
 
 ### 🔹 Fusion Model
 - Weighted average of predictions:
@@ -91,49 +95,44 @@ Despite this, strong generalization behavior was achieved using transfer learnin
 
 **Classification Report:**
 
-precision    recall  f1-score   support
-
-F_Breakage     0.84    0.78      0.81       95
-F_Crushed      0.70    0.75      0.72       75
-F_Normal       0.87    0.89      0.88      100
-R_Breakage     0.69    0.54      0.60       54
-R_Crushed      0.55    0.67      0.60       57
-R_Normal       0.77    0.77      0.77       60
-
-accuracy                           0.75      441
-macro avg       0.74    0.73      0.73      441
-weighted avg    0.76    0.75      0.75      441
+| Class | Precision | Recall | F1-Score |
+|---|---|---|---|
+| F_Breakage | 0.84 | 0.78 | 0.81 |
+| F_Crushed | 0.70 | 0.75 | 0.72 |
+| F_Normal | 0.87 | 0.89 | 0.88 |
+| R_Breakage | 0.69 | 0.54 | 0.60 |
+| R_Crushed | 0.55 | 0.67 | 0.60 |
+| R_Normal | 0.77 | 0.77 | 0.77 |
 
 ---
 
 ### 🔹 DeiT Performance
 
-- **Train Accuracy:** ~81%  
-- **Validation Accuracy:** ~71–73%  
-- **Generalization Gap:** ~7–9% (stable)
+- **Train Accuracy:** ~98% (Final Epoch)  
+- **Validation Accuracy:** **81%** - **Generalization Gap:** ~17% (High learning capacity)
 
 **Classification Report:**
 
-precision    recall  f1-score   support
-
-F_Breakage     0.71    0.82      0.76       95
-F_Crushed      0.61    0.51      0.55       75
-F_Normal       0.75    0.80      0.78      100
-R_Breakage     0.82    0.57      0.67       54
-R_Crushed      0.69    0.72      0.71       57
-R_Normal       0.67    0.73      0.70       60
-
-accuracy                           0.71      441
-macro avg       0.71    0.69      0.70      441
-weighted avg    0.71    0.71      0.70      441
+| Class | Precision | Recall | F1-Score | Support |
+|---|---|---|---|---|
+| **F_Breakage** | 0.85 | 0.86 | 0.86 | 95 |
+| **F_Crushed** | 0.79 | 0.76 | 0.78 | 75 |
+| **F_Normal** | 0.90 | 0.92 | 0.91 | 100 |
+| **R_Breakage** | 0.83 | 0.54 | 0.65 | 54 |
+| **R_Crushed** | 0.62 | 0.74 | 0.67 | 57 |
+| **R_Normal** | 0.79 | 0.90 | 0.84 | 60 |
+| | | | | |
+| **Accuracy** | | | **0.81** | 441 |
+| **Macro Avg** | 0.80 | 0.79 | 0.79 | 441 |
+| **Weighted Avg** | 0.81 | 0.81 | 0.80 | 441 |
 
 ---
 
 ## 📈 Key Observations
 
-- Controlled overfitting (small train–val gap)  
-- ResNet outperforms DeiT  
-- DeiT struggles with limited data  
+- **Transformer Scalability:** By unfreezing the last 4 encoder layers, DeiT surpassed ResNet18 in validation accuracy (81% vs 75%).
+- **Class Imbalance Sensitivity:** Both models struggle more with "Rear" damage categories compared to "Front" damage, likely due to visual similarities or lower image counts in the dataset.
+- **Deep Convergence:** The DeiT model converges to near-perfect training accuracy, suggesting it has successfully captured the complex patterns of the limited dataset.
 
 ---
 
@@ -158,20 +157,23 @@ weighted avg    0.71    0.71      0.70      441
 
 ## 🚀 Setup
 
+```bash
 python -m venv venv  
 venv\Scripts\activate  
-pip install -r requirements.txt  
+pip install -r requirements.txt
+```
 
 ---
 
 ## ▶️ Run
 
+```bash
 uvicorn app:app --reload  
-streamlit run main.py  
+streamlit run main.py
+```
 
 ---
 
 ## 🧠 Final Takeaway
 
-~75% accuracy with stable generalization on limited data.  
-ResNet proved more reliable and interpretable than DeiT.
+**81% accuracy** achieved with the fine-tuned DeiT model. While ResNet is better for spatial interpretability (Grad-CAM), the Vision Transformer (DeiT) provides higher raw classification accuracy when the final encoder blocks are unfrozen.
