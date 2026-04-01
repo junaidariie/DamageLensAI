@@ -2,7 +2,7 @@
 
 # 🚗 DamageLensAI
 
-🔗 **Live App:** [https://junaidariie.github.io/DamageLensAI/](https://junaidariie.github.io/DamageLensAI/)
+🔗 **Live App:** [LINK](https://junaidariie.github.io/DamageLensAI-frontend/)
 
 ---
 
