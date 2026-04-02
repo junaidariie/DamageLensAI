@@ -11,7 +11,6 @@ class Car_Classifier_Resnet(nn.Module):
         super().__init__()
         self.model = models.resnet18(weights="DEFAULT")
 
-        # Freeze most layers
         for param in self.model.parameters():
             param.requires_grad = False
         for param in self.model.layer3.parameters():
@@ -19,7 +18,6 @@ class Car_Classifier_Resnet(nn.Module):
         for param in self.model.layer4.parameters():
             param.requires_grad = True
 
-        # Replace FC head
         self.model.fc = nn.Sequential(
             nn.Dropout(0.5),
             nn.Linear(self.model.fc.in_features, 256),
