@@ -4,7 +4,8 @@
 
 # 🚗 DamageLensAI
 
-# ATTENTION : Due to some frontend error when users sends first request the frontend throws an error related to api and the backend does't start autometicly, so to use the app u first have to manually restart the backend or huggingface space from huggingface hub here's the repo link : https://huggingface.co/spaces/junaid17/DamageLens
+# ATTENTION 
+**Due to some frontend error when users sends first request the frontend throws an error related to api and the backend does't start autometicly, so to use the app u first have to manually restart the backend or huggingface space from huggingface hub here's the repo link : https://huggingface.co/spaces/junaid17/DamageLens**
 
 🔗 **Live App:** [LINK](https://junaidariie.github.io/DamageLensAI-frontend/)
 
