@@ -20,6 +20,10 @@
 
 **HF REPO** : https://huggingface.co/spaces/junaid17/DamageLensAI/tree/main
 
+**📓 NOTEBOOKS** : GitHub cannot render Jupyter Notebooks — view them directly on the HF repo: [Notebooks on HuggingFace](https://huggingface.co/spaces/junaid17/DamageLensAI/tree/main/Notebooks)
+
+**🎬 APP DEMO** : [YouTube Demo Video](https://www.youtube.com/your-video-link-here)
+
 ---
 
 ## 📋 Table of Contents
