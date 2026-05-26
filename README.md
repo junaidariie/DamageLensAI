@@ -335,7 +335,7 @@ DamageLens uses **GitHub Actions** for continuous integration. Every push or pul
 
 **CI Screenshot (GitHub Actions — All Tests Passing):**
 
-![CI Pipeline Passing](assets/ci_pipeline_passing.png)
+![CI Pipeline Passing](assets/ci_pipeline_passing.jpg)
 
 ### What the pipeline tests:
 
