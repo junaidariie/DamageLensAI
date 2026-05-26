@@ -1,0 +1,7 @@
+train: D:/DamageLensAI/data/yolo/train/images
+val: D:/DamageLensAI/data/yolo/val/images
+
+nc: 1
+
+names:
+  - damage

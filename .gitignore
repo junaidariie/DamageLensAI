@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+
+myvenv/
+.venv/
+venv/
+.env
+data/processed/
+artifacts/
+
+checkpoints/*.pt
+checkpoints/*.pth

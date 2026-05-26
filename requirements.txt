@@ -1,0 +1,15 @@
+torch
+torchvision
+transformers
+fastapi
+uvicorn
+dotenv
+matplotlib
+opencv-python
+python-multipart
+ultralytics
+plotly
+pandas
+scikit-learn
+seaborn
+huggingface_hub
