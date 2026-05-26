@@ -22,7 +22,9 @@
 
 **📓 NOTEBOOKS** : GitHub cannot render Jupyter Notebooks — view them directly on the HF repo: [Notebooks on HuggingFace](https://huggingface.co/spaces/junaid17/DamageLensAI/tree/main/Notebooks)
 
-**🎬 APP DEMO** : [YouTube Demo Video](https://www.youtube.com/your-video-link-here)
+**🎬 APP DEMO** : [YouTube Demo Video](https://youtu.be/iwqA3h3D2ZY)  
+
+_In the video, I tested the app locally. On Hugging Face Hub, due to limited hardware, predictions may run a little slower._
 
 ---
 
