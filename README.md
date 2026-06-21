@@ -1,3 +1,5 @@
+![DamageLens Banner](assets/Gemini_Generated_Image_ospdq3ospdq3ospd.png)
+
 # 🚗 DamageLens: AI-Powered Car Damage Detection
 
 [![Python 3.11+](https://img.shields.io/badge/Python-3.11%2B-brightgreen)](https://python.org)
