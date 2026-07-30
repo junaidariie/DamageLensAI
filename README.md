@@ -67,7 +67,7 @@ Additionally, it uses **YOLO object detection** to localize damage regions with 
 | **Dual Model Architecture** | ResNet (lightweight) and Fusion (high-accuracy) options |
 | **Grad-CAM Visualization** | Understand which image regions drive predictions |
 | **Real-time YOLO Detection** | Localize damage with confidence scores |
-| **FP16 Optimization** | Reduced model size (788MB → 135MB) with minimal accuracy loss |
+| **FP16 Optimization** | Reduced model size (258MB → 135MB) with minimal accuracy loss |
 | **FastAPI Backend** | High-performance REST API with async support |
 | **Responsive Web UI** | Modern, interactive web interface with real-time feedback |
 | **Static File Serving** | Efficient caching and delivery of results |
