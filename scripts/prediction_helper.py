@@ -57,7 +57,7 @@ class ResnetCarDamagePredictor:
         logger.info(f"Using device for ResNet: {self.device}")
 
         self.test_transforms = transforms.Compose([
-            transforms.Resize((128, 128)),
+            transforms.Resize((224, 224)),
             transforms.ToTensor(),
             transforms.Normalize(
                 [0.485, 0.456, 0.406],
