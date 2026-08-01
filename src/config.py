@@ -25,7 +25,7 @@ EPOCHS = 1
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
 # ---------------- IMAGE SIZES ----------------
-RESNET_IMAGE_SIZE = 128
+RESNET_IMAGE_SIZE = 224
 FUSION_IMAGE_SIZE = 260
 YOLO_IMAGE_SIZE = 640
 
