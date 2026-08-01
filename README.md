@@ -695,10 +695,9 @@ DamageLens/
 
 | Metric | Value | Note |
 |--------|-------|------|
-| ResNet Inference | ~500ms | Fast, lower accuracy |
-| Fusion Inference | 30-60s | Accurate, computationally heavy |
+| ResNet Inference | - | Fast, lower accuracy |
+| Fusion Inference | - | Accurate, computationally heavy |
 | Cold Startup | 4-5 min | HF Hub download + model warmup |
-| GPU Memory | ~4GB | For Fusion model |
 | ResNet Accuracy | 77% | Lightweight trade-off |
 | Fusion Accuracy | 84% | Best accuracy |
 
