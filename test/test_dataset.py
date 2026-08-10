@@ -16,7 +16,7 @@ def test_dataset():
 
     images, labels = next(iter(resnet_loader))
 
-    assert images.shape[1:] == (3, 128, 128), \
+    assert images.shape[1:] == (3, 224, 224), \
         f"Unexpected ResNet image shape: {images.shape}"
 
     assert len(labels.shape) == 1, \
