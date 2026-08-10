@@ -7,7 +7,7 @@ export default function YoloResult({ yolo }) {
   const hasDetections = total_detections > 0;
 
   return (
-    <div style={s.grid}>
+    <div style={s.grid} className="two-col-grid">
       {/* Left: annotated image */}
       <div style={s.imgCard}>
         <h3 style={s.cardTitle}>Bounding Boxes</h3>
