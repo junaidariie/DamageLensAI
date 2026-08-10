@@ -5,7 +5,7 @@ export default function Header() {
     <div style={s.wrap}>
       <div style={s.shimmerText}>🚗 Car Damage AI</div>
       <p style={s.sub}>Fusion Intelligence: ResNet + YOLO + Grad-CAM</p>
-      <div style={s.warning}>
+      <div style={s.warning} className="warning-box">
         <span style={{ fontSize: 18 }}>⏱️</span>
         <span>
           <b>Note:</b> First analysis may take 3–4 min while models warm up.
@@ -32,8 +32,8 @@ const s = {
   },
   sub: { color: "#a1a1aa", fontSize: "1rem", marginBottom: 20 },
   warning: {
-    display: "inline-flex",
-    alignItems: "center",
+    display: "flex",
+    alignItems: "flex-start",
     gap: 10,
     background: "rgba(0,198,255,0.08)",
     border: "1px solid rgba(0,198,255,0.25)",
@@ -43,6 +43,8 @@ const s = {
     borderRadius: 10,
     fontSize: "0.88rem",
     maxWidth: 560,
+    width: "100%",
     textAlign: "left",
+    boxSizing: "border-box",
   },
 };
