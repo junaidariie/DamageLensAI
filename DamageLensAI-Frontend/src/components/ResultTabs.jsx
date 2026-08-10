@@ -41,6 +41,7 @@ export default function ResultTabs({ result }) {
           exit={{ opacity: 0 }}
           transition={{ duration: 0.2 }}
           style={s.content}
+          className="tab-content"
         >
           {active === "pred" && (
             <ClassificationResult
