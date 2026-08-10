@@ -20,7 +20,7 @@ def test_augmentation():
     resnet_tensor = resnet_transform(dummy_image)
     fusion_tensor = fusion_transform(dummy_image)
 
-    assert resnet_tensor.shape == (3, 128, 128), \
+    assert resnet_tensor.shape == (3, 224, 224), \
         f"Unexpected ResNet shape: {resnet_tensor.shape}"
 
     assert fusion_tensor.shape == (3, 260, 260), \
