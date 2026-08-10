@@ -39,4 +39,21 @@ body {
   .controls-grid-responsive {
     grid-template-columns: 1fr !important;
   }
+  .two-col-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .app-container {
+    padding: 20px 16px !important;
+    border-radius: 14px !important;
+  }
+  .app-page {
+    padding: 16px 12px 40px !important;
+  }
+  .tab-content {
+    padding: 14px !important;
+  }
+  .warning-box {
+    text-align: left;
+    font-size: 0.82rem !important;
+  }
 }
