@@ -68,15 +68,15 @@ export default function App() {
   };
 
   return (
-    <div style={s.page}>
+    <div style={s.page} className="app-page">
       {/* Radial glow background */}
       <div style={s.bgGlow} />
 
-      <div style={s.container}>
+      <div style={s.container} className="app-container">
         <Header />
 
         {/* Controls row */}
-        <div style={s.controlsGrid}>
+        <div style={s.controlsGrid} className="controls-grid-responsive">
           <ImageUploader
             onFileSelect={(f) => { setFile(f); setResult(null); setError(null); }}
             selectedFile={file}
