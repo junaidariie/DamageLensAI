@@ -13,3 +13,11 @@ pandas
 scikit-learn
 seaborn
 huggingface_hub
+onnx 
+onnxruntime 
+pillow  
+onnxscript
+huggingface_hub
+python-dotenv
+onnxconverter-common
+streamlit

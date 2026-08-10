@@ -51,10 +51,3 @@ CLASS_MAP = {idx: cls for idx, cls in enumerate(CLASS_NAMES)}
 CLASS_TO_IDX = {cls: idx for idx, cls in enumerate(CLASS_NAMES)}
 
 NUM_CLASSES = len(CLASS_NAMES)
-
-# ---------------- HUGGING FACE ----------------
-HF_USERNAME = "junaid17"
-
-HF_RESNET_REPO = "new-car-damage-classifier"
-HF_FUSION_REPO = "new-best-fusion-model-fp16"
-HF_YOLO_REPO = "new-Yolo-Model"

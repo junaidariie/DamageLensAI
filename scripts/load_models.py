@@ -1,27 +1,29 @@
 import logging
 from pathlib import Path
+import onnxruntime as ort
 from huggingface_hub import hf_hub_download
 from ultralytics import YOLO
 
-from .prediction_helper import (
-    ResnetCarDamagePredictor,
-    FusionCarDamagePredictor,
-)
+from .prediction_helper import ResnetCarDamagePredictor
 
 logger = logging.getLogger(__name__)
 
 MODEL_CONFIG = {
-    "resnet": {
+    "resnet_onnx": {
+        "repo_id": "junaid17/car-damage-classifier",
+        "filename": "car-damage-classifier.onnx",
+    },
+    "fusion_onnx": {
+        "repo_id": "junaid17/best_fusion_model_fp16",
+        "filename": "fusion_model.onnx",
+    },
+    "yolo_onnx": {
+        "repo_id": "junaid17/Yolo_Model",
+        "filename": "damage_detector.onnx",
+    },
+    "resnet_pt": {
         "repo_id": "junaid17/car-damage-classifier",
         "filename": "car-damage-classifier.pt",
-    },
-    "fusion": {
-        "repo_id": "junaid17/best_fusion_model_fp16",
-        "filename": "best_fusion_model_fp16.pt",
-    },
-    "yolo": {
-        "repo_id": "junaid17/Yolo_Model",
-        "filename": "damage_detector.pt",
     },
 }
 
@@ -34,16 +36,14 @@ def get_checkpoint_path(model_key: str) -> Path:
 
     try:
         logger.info(f"Fetching {model_key} model from Hugging Face Hub...")
-        logger.info(f"Repo: {config['repo_id']}")
-        logger.info(f"File: {config['filename']}")
+        logger.info(f"Repo: {config['repo_id']} | File: {config['filename']}")
 
         local_path = hf_hub_download(
             repo_id=config["repo_id"],
             filename=config["filename"],
         )
 
-        logger.info(f"{model_key} model available at: {local_path}")
-
+        logger.info(f"{model_key} model downloaded to: {local_path}")
         return Path(local_path)
 
     except Exception as e:
@@ -60,31 +60,44 @@ class ModelLoader:
 
 
 def initialize_models(class_map):
-    logger.info("Starting model initialization...")
+    logger.info("Starting model initialization pipeline...")
 
     try:
-        resnet_path = get_checkpoint_path("resnet")
-        fusion_path = get_checkpoint_path("fusion")
-        yolo_path = get_checkpoint_path("yolo")
+        # 1. Download/Fetch all 4 model file paths
+        resnet_onnx_path = get_checkpoint_path("resnet_onnx")
+        fusion_onnx_path = get_checkpoint_path("fusion_onnx")
+        yolo_onnx_path   = get_checkpoint_path("yolo_onnx")
+        resnet_pt_path   = get_checkpoint_path("resnet_pt")
 
-        logger.info("Initializing ResNet predictor...")
-        resnet_predictor = ResnetCarDamagePredictor(
-            checkpoint_path=resnet_path,
+        # Define ONNX Execution Providers (GPU if available, fallback to CPU)
+        providers = ['CUDAExecutionProvider', 'CPUExecutionProvider']
+
+        # 2. Initialize ONNX Runtime Sessions for Classifier Models
+        logger.info("Initializing ResNet ONNX Session...")
+        resnet_onnx_session = ort.InferenceSession(str(resnet_onnx_path), providers=providers)
+
+        logger.info("Initializing Fusion ONNX Session...")
+        fusion_onnx_session = ort.InferenceSession(str(fusion_onnx_path), providers=providers)
+
+        # 3. Initialize YOLO ONNX Model via Ultralytics (enables ONNX runtime with .predict API)
+        logger.info("Initializing YOLO ONNX Model via Ultralytics...")
+        yolo_onnx_model = YOLO(str(yolo_onnx_path), task="detect")
+
+        # 4. Initialize PyTorch ResNet Predictor (specifically reserved for Grad-CAM)
+        logger.info("Initializing PyTorch ResNet model for Grad-CAM...")
+        resnet_gradcam_predictor = ResnetCarDamagePredictor(
+            checkpoint_path=resnet_pt_path,
             class_map=class_map
         )
 
-        logger.info("Initializing Fusion predictor...")
-        fusion_predictor = FusionCarDamagePredictor(
-            checkpoint_path=fusion_path,
-            class_map=class_map
-        )
+        logger.info("All 4 models (3 ONNX + 1 PyTorch Grad-CAM) initialized successfully.")
 
-        logger.info("Initializing YOLO model...")
-        yolo_model = YOLO(str(yolo_path))
-
-        logger.info("All models initialized successfully.")
-
-        return resnet_predictor, fusion_predictor, yolo_model
+        return {
+            "resnet_onnx": resnet_onnx_session,
+            "fusion_onnx": fusion_onnx_session,
+            "yolo_onnx": yolo_onnx_model,
+            "resnet_pt": resnet_gradcam_predictor,
+        }
 
     except Exception as e:
         logger.exception("Model initialization failed.")

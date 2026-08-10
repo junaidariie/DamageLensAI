@@ -4,9 +4,12 @@ __pycache__/
 myvenv/
 .venv/
 venv/
-.env
 data/processed/
 artifacts/
-
+static/
 checkpoints/*.pt
 checkpoints/*.pth
+node_modules
+dist
+val/
+test_images/
