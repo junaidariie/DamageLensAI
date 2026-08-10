@@ -10,6 +10,5 @@ static/
 checkpoints/*.pt
 checkpoints/*.pth
 node_modules
-dist
 val/
 test_images/
