@@ -9,7 +9,7 @@ export default function GradCamResult({ gradcam, originalImage, mode }) {
         <span style={{ color: "#ef4444" }}> Red</span> = high importance ·
         <span style={{ color: "#3b82f6" }}> Blue</span> = low importance.
       </div>
-      <div style={s.grid}>
+      <div style={s.grid} className="two-col-grid">
         <div style={s.imgCard}>
           <div style={s.label}>Original Image</div>
           <img src={getImageUrl(originalImage)} alt="original" style={s.img} />
