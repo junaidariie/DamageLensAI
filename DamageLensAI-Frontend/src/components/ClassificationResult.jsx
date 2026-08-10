@@ -105,6 +105,7 @@ const s = {
     color: "#e2e8f0",
     display: "flex",
     alignItems: "center",
+    flexWrap: "wrap",
     gap: 10,
     marginBottom: 12,
   },
