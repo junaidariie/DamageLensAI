@@ -15,7 +15,7 @@
 > **Cold Startup Time**: The API may take **4-5 minutes** on the first request to warm up the models. Subsequent predictions will be significantly faster.
 
 ---
-**APP LINK** : [https://junaidariie.github.io/DamageLensAI/](https://damage-lens-ai.vercel.app/)
+**APP LINK** : [APP](https://damage-lens-ai.vercel.app/)
 
 **HF REPO** : https://huggingface.co/spaces/junaid17/DamageLensAI/tree/main
 
